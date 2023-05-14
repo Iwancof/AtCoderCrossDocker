@@ -1,7 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 RUN apt-get -y update --fix-missing
-RUN apt-get -y --allow-downgrades install curl wget gcc build-essential lld
+RUN apt-get -y --fix-missing --allow-downgrades install curl wget gcc build-essential lld m4 libgmp3-dev libmpfr-dev
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup.sh
 RUN chmod +x ./rustup.sh
@@ -35,6 +35,7 @@ RUN tar zxvf mold-1.3.1-x86_64-linux.tar.gz
 ENV PATH=/root/mold-1.3.1-x86_64-linux/bin:$PATH
 
 RUN echo $PATH
+RUN chmod +x /lib/x86_64-linux-gnu/libc.so.6
 RUN /lib/x86_64-linux-gnu/libc.so.6
 RUN cargo --version
 RUN ld.lld --version
